@@ -11,4 +11,6 @@ public interface geLayer extends movable {
 
     // sprite
     void addSprite(geSprite s);
+
+    void removeSprite(geSprite s);
 }
