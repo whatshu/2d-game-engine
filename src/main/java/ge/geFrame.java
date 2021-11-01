@@ -1,20 +1,24 @@
 package ge;
 
-import ge.base.BORDER;
+import ge.base.COLLISION_BORDER;
 
 import java.awt.*;
 
 public class geFrame {
-    private BORDER collisionBorder;
-    private Image  image;
+    private COLLISION_BORDER collisionBorder;
+    private String imageResourceName;
 
-    public geFrame(Image image, BORDER collisionBorder) {
-        this.image = image;
+    public geFrame(String imageName, COLLISION_BORDER collisionBorder) {
+        this.imageResourceName = imageName;
         this.collisionBorder = collisionBorder;
     }
 
     public Image getImage() {
-        return image;
+        return ge.util.imageManager.getImageManager().get(imageResourceName);
+    }
+
+    public COLLISION_BORDER getCollisionBorder(){
+        return collisionBorder;
     }
 
 }

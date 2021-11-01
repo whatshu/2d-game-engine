@@ -21,7 +21,7 @@ public class imageManager {
         return singleton;
     }
 
-    public void read(String resourceName, String filePath) throws IOException {
+    public void load(String resourceName, String filePath) throws IOException {
         imageMap.put(resourceName, ImageIO.read(new File(filePath)));
     }
 

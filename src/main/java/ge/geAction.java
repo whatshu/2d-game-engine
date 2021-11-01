@@ -1,13 +1,19 @@
 package ge;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class geAction {
-    private List<geFrame> frames = new ArrayList<>();
-    private int           now_at = 0;
+    private List<geFrame> frames;
+    private int now_at = 0;
+    private String name;
 
-    public geAction() {
+    public geAction(String name, List<geFrame> frames) {
+        this.name = name;
+        this.frames = frames;
+    }
+
+    public geFrame nowFrame() {
+        return frames.get(now_at);
     }
 
     public geFrame next() {

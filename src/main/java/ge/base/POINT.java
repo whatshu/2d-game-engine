@@ -8,4 +8,8 @@ public class POINT {
         this.x = x;
         this.y = y;
     }
+
+    public LINE lineWithAnotherPoint(POINT other) {
+        return new LINE(this, other);
+    }
 }

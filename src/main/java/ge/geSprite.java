@@ -1,29 +1,92 @@
 package ge;
 
+import ge.base.COLLISION_BORDER;
 import ge.base.MOVABLE;
 import ge.base.POINT;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface geSprite extends MOVABLE {
-    // border
-    float getWidth();
+public class geSprite implements MOVABLE {
+    // todo biggest todo here
 
-    float getHeight();
+    private COLLISION_BORDER defaultCollisionBorder;
+    private String defaultFrameResourceName;
+    private Map<String, geAction> actions = new HashMap<>();
+    private float width, height;
+    private float x, y;
 
-    // collision border
-    List<POINT> getCollisionBorder();
+    public geSprite(String frame, COLLISION_BORDER collisionBorder, float w, float h, float x, float y) {
+        defaultFrameResourceName = frame;
+        defaultCollisionBorder = collisionBorder;
+        width = w;
+        height = h;
+        this.x = x;
+        this.y = y;
+    }
 
-    // layer of the sprite
-    geLayer getLayer();
+    public float getWidth() {
+        return 0;
+    }
 
-    // center of the sprite
-    POINT getCenter();
+    float getHeight() {
+        return 0;
+    }
 
-    // action
-    void setAction(String actionName);
+    COLLISION_BORDER getCollisionBorder() {
+        return null;
+    }
 
-    void nextFrame();
+    geLayer getLayer() {
+        return null;
+    }
 
-    void resetFrame();
+    POINT getCenter() {
+        return null;
+    }
+
+    void setAction(String actionName) {
+
+    }
+
+    void nextFrame() {
+
+    }
+
+    void resetFrame() {
+
+    }
+
+    @Override
+    public void move(float dx, float dy) {
+    }
+
+    @Override
+    public void move(POINT dp) {
+    }
+
+    @Override
+    public void set(float x, float y) {
+
+    }
+
+    @Override
+    public void set(POINT p) {
+
+    }
+
+    @Override
+    public POINT getPosition() {
+        return null;
+    }
+
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
 }
