@@ -1,6 +1,11 @@
+package ge;
+
+import ge.base.MOVABLE;
+import ge.base.POINT;
+
 import java.util.List;
 
-public interface geSprite extends movable {
+public interface geSprite extends MOVABLE {
     // border
     float getWidth();
 

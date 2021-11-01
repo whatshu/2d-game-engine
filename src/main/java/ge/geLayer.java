@@ -1,4 +1,8 @@
-public interface geLayer extends movable {
+package ge;
+
+import ge.base.MOVABLE;
+
+public interface geLayer extends MOVABLE {
     // visible
     void getVisible();
 

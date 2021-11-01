@@ -1,4 +1,8 @@
-public interface movable {
+package ge.base;
+
+import ge.base.POINT;
+
+public interface MOVABLE {
     POINT move(float dx, float dy);
 
     POINT move(POINT dp);
