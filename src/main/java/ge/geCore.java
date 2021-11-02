@@ -66,7 +66,7 @@ public class geCore {
 
     public static void main(String[] args) {
         geCore core = new geCore();
-        System.out.println(core.loadResource("test", "/Users/whatshu/projects/IdeaProjects/gameEngineGE/src/main/java/ge/resources/123.jpg"));
+        System.out.println(core.loadResource("test", "resources/123.jpg"));
         core.addLayer("layer-0", "test", 0, 0, 0, 1, 1);
         core.update();
     }
