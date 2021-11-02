@@ -9,6 +9,7 @@ public class geCore {
 
     private imageManager imageManager = ge.util.imageManager.getImageManager();
     private geWindow window = new geWindow();
+    public static int coreCounter = 0;
 
     public geCore() {
     }
@@ -62,12 +63,16 @@ public class geCore {
 
     public void update() {
         window.update();
+        this.coreCounter++;
     }
 
     public static void main(String[] args) {
         geCore core = new geCore();
-        System.out.println(core.loadResource("test", "resources/123.jpg"));
+        System.out.println("test " + core.loadResource("test", "resources/123.jpg"));
         core.addLayer("layer-0", "test", 0, 0, 0, 1, 1);
+
+        System.out.println("ae86 " + core.loadResource("ae86","resources/ae86.gif"));
+        core.addLayer("layer-1","ae86",1,1,1,1,1);
         core.update();
     }
 }
