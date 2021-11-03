@@ -29,31 +29,31 @@ public class geSprite implements MOVABLE {
         return 0;
     }
 
-    float getHeight() {
+    public float getHeight() {
         return 0;
     }
 
-    COLLISION_BORDER getCollisionBorder() {
+    public COLLISION_BORDER getCollisionBorder() {
         return null;
     }
 
-    geLayer getLayer() {
+    public geLayer getLayer() {
         return null;
     }
 
-    POINT getCenter() {
+    public POINT getCenter() {
         return null;
     }
 
-    void setAction(String actionName) {
+    public void setAction(String actionName) {
 
     }
 
-    void nextFrame() {
+    public void nextFrame() {
 
     }
 
-    void resetFrame() {
+    public void resetFrame() {
 
     }
 
