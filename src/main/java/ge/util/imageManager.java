@@ -18,7 +18,7 @@ public class imageManager {
     public static final String JPG = "JPEG";
     public static final String PNG = "png";
 
-    private static imageManager singleton = new imageManager();
+    private final static imageManager singleton = new imageManager();
 
     private Map<String, Image> imageMap = new HashMap();
 
@@ -42,13 +42,7 @@ public class imageManager {
         return imageMap.get(resourceName);
     }
 
-    /*
-     * @Descroption TODO input the path of pic, return its type
-     * @Author windowUserr
-     * @Date 2021/11/2
-     * @Return [java.lang.String]
-    */
-    public static String getImgType(String string){
+    public String getImgType(String string){
         File file = new File(string);
         try {
             ImageInputStream iis = ImageIO.createImageInputStream(file);

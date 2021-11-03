@@ -1,5 +1,6 @@
 package ge;
 
+import ge.base.COLLISION_BORDER;
 import ge.util.imageManager;
 
 import java.io.IOException;
@@ -57,8 +58,24 @@ public class geCore {
         return window.getLayers();
     }
 
-    public void addSprite(geLayer layer, geSprite sprite) {
-        // todo sprite
+    public void layerSetVisible(geLayer layer) {
+        layer.setVisible(true);
+    }
+
+    public void layerSetInvisible(geLayer layer) {
+        layer.setVisible(false);
+    }
+
+    public void addSprite(geLayer layer, String spriteName, String defaultSpriteFrame, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
+        layer.addSprite(new geSprite(layer, spriteName, defaultSpriteFrame, defaultCollisionBorder, width, height));
+    }
+
+    public void removeSprite(geLayer layer, geSprite sprite) {
+        layer.removeSprite(sprite);
+    }
+
+    public void spriteAddAction(geSprite sprite, geAction action) {
+        // todo add action to sprite
     }
 
     public void update() {
@@ -71,8 +88,8 @@ public class geCore {
         System.out.println("test " + core.loadResource("test", "resources/123.jpg"));
         core.addLayer("layer-0", "test", 0, 0, 0, 1, 1);
 
-        System.out.println("ae86 " + core.loadResource("ae86","resources/ae86.gif"));
-        core.addLayer("layer-1","ae86",1,1,1,1,1);
+        System.out.println("ae86 " + core.loadResource("ae86", "resources/ae86.gif"));
+        core.addLayer("layer-1", "ae86", 1, 1, 1, 1, 1);
         core.update();
     }
 }

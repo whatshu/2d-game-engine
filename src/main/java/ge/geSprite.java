@@ -4,6 +4,7 @@ import ge.base.COLLISION_BORDER;
 import ge.base.LINE;
 import ge.base.MOVABLE;
 import ge.base.POINT;
+import ge.geException.geException;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class geSprite implements MOVABLE {
     private String name;
     private final COLLISION_BORDER defaultCollisionBorder;
     private final String defaultFrameResourceName;
-    private Map<String, geAction> actions = new HashMap<>();
+//    private Map<String, geAction> actions = new HashMap<>();
     private geAction nowAction = null;
     private float width, height;
     private float x, y;
@@ -30,7 +31,7 @@ public class geSprite implements MOVABLE {
     }
 
     public void setAction(String actionName) {
-        nowAction = actions.getOrDefault(actionName, null);
+        nowAction = ge.util.actionManager.getActionManager().get(actionName);
     }
 
     public void resetAction() {
