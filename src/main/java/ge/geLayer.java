@@ -27,10 +27,6 @@ public class geLayer implements MOVABLE {
         this.name = name;
     }
 
-    public geLayer(geLayer other, int depth) {
-
-    }
-
     void addSprite(geSprite s) {
         // todo add a sprite for a layer
     }
