@@ -27,16 +27,26 @@ public class geLayer implements MOVABLE {
         this.name = name;
     }
 
-    void addSprite(geSprite s) {
-        // todo add a sprite for a layer
+    public void addSprite(geSprite s){
+        sprites.add(s);
     }
 
-    void removeSprite(geSprite s) {
-        // todo remove a sprite for a layer
+    public void removeSprite(geSprite s) {
+        sprites.remove(s);
+        s.abandon();
     }
 
     public Image getBackground() {
         return imageManager.getImageManager().get(background);
+    }
+
+    public geSprite getSpriteByName(String name) {
+        for (geSprite sprite : sprites) {
+            if (sprite.getName().equals(name)) {
+                return sprite;
+            }
+        }
+        return null;
     }
 
     public List<geSprite> getSprites() {
