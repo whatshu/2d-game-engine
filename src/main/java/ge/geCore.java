@@ -1,16 +1,16 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
-import ge.util.imageManager;
+import ge.geException.geException;
+import ge.util.frameManager;
 
 import java.io.IOException;
 import java.util.List;
 
 public class geCore {
 
-    private imageManager imageManager = ge.util.imageManager.getImageManager();
+    private frameManager frameManager = ge.util.frameManager.getFrameManager();
     private geWindow window = new geWindow();
-    public static int coreCounter = 0;
 
     public geCore() {
     }
@@ -21,8 +21,8 @@ public class geCore {
 
     public boolean loadResource(String resourceName, String filePath) {
         try {
-            imageManager.load(resourceName, filePath);
-        } catch (IOException e) {
+            frameManager.load(resourceName, filePath);
+        } catch (geException e) {
             return false;
         }
         return true;
@@ -80,7 +80,6 @@ public class geCore {
 
     public void update() {
         window.update();
-        this.coreCounter++;
     }
 
     public static void main(String[] args) {

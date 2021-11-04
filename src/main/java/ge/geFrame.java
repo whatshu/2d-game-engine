@@ -1,6 +1,7 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
+import ge.util.frameManager;
 
 import java.awt.*;
 
@@ -14,7 +15,7 @@ public class geFrame {
     }
 
     public Image getImage() {
-        return ge.util.imageManager.getImageManager().get(imageResourceName);
+        return frameManager.getFrameManager().get(imageResourceName);
     }
 
     public COLLISION_BORDER getCollisionBorder(){
