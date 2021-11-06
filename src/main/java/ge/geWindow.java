@@ -23,11 +23,14 @@ public class geWindow {
             for (int i = minDepth; i <= maxDepth; i++) {
                 for (geLayer layer : layers) {
                     if (layer.isVisible() && layer.getDepth() == i) {
-                        int actualX = (int) ((layer.getX() + 1) / 2 * this.getWidth());
-                        int actualY = (int) ((1 - layer.getY()) / 2 * this.getHeight());
-                        int actualWidth = (int) (layer.getWidth() / 2 * this.getWidth());
-                        int actualHeight = (int) (layer.getHeight() / 2 * this.getHeight());
-                        g.drawImage(layer.getBackground(), actualX, actualY, actualWidth, actualHeight, this);
+                        int actualLayerX = (int) ((layer.getX() + 1) / 2 * this.getWidth());
+                        int actualLayerY = (int) ((1 - layer.getY()) / 2 * this.getHeight());
+                        int actualLayerWidth = (int) (layer.getWidth() / 2 * this.getWidth());
+                        int actualLayerHeight = (int) (layer.getHeight() / 2 * this.getHeight());
+                        g.drawImage(layer.getBackground(), actualLayerX, actualLayerY, actualLayerWidth, actualLayerHeight, this);
+
+                        // todo draw sprite
+
                     }
                 }
             }

@@ -4,51 +4,59 @@ import ge.base.COLLISION_BORDER;
 import ge.base.LINE;
 import ge.base.MOVABLE;
 import ge.base.POINT;
-import ge.util.animationManager;
-import ge.util.imageManager;
+import ge.util.actionManager;
+
+import java.awt.*;
 
 public class geSprite implements MOVABLE {
     private geLayer parentLayer;
-    private String name;
-    private final COLLISION_BORDER defaultCollisionBorder;
-    private final String defaultFrameResourceName;
-//    private Map<String, geAction> actions = new HashMap<>();
+    private final String name;
+    private final geFrame defaultFrame;
     private geAction nowAction = null;
-    private float width, height;
+    private final float width;
+    private final float height;
     private float x, y;
 
-    public geSprite(geLayer parent, String name, String frame, COLLISION_BORDER collisionBorder, float w, float h) {
+    public geSprite(geLayer parent, String name, Image image, COLLISION_BORDER collisionBorder, float w, float h) {
         this.parentLayer = parent;
         this.name = name;
-        this.defaultFrameResourceName = frame;
-        this.defaultCollisionBorder = collisionBorder;
+        this.defaultFrame = new geFrame(image, collisionBorder);
+        this.width = w;
+        this.height = h;
+        parent.addSprite(this);
+    }
+
+    public geSprite(geLayer parent, String name, geFrame defaultFrame, float w, float h) {
+        this.parentLayer = parent;
+        this.name = name;
+        this.defaultFrame = defaultFrame;
         this.width = w;
         this.height = h;
         parent.addSprite(this);
     }
 
     public void setAction(String actionName) {
-//        nowAction = animationManager.getActionManager().get(actionName);
+        nowAction = actionManager.getActionManager().get(actionName);
     }
 
     public void resetAction() {
         nowAction = null;
     }
 
-    public Object getFrame() {
+    public geFrame getFrame() {
         if (parentLayer == null) {
             return null;
         }
 
         if (nowAction == null) {
-            return imageManager.getFrameManager().get(defaultFrameResourceName);
+            return defaultFrame;
         } else {
-            return nowAction.nowFrame().getImage();
+            return nowAction.nowFrame();
         }
     }
 
-    public Object nextFrame() {
-        return nowAction.next().getImage();
+    public geFrame nextFrame() {
+        return nowAction.next();
     }
 
     public void resetFrame() {
@@ -67,7 +75,7 @@ public class geSprite implements MOVABLE {
         parentLayer = null;
     }
 
-    public void changeParentLayer(geLayer layer){
+    public void changeParentLayer(geLayer layer) {
         parentLayer.removeSprite(this);
         layer.addSprite(this);
         parentLayer = layer;
@@ -130,7 +138,7 @@ public class geSprite implements MOVABLE {
 
     private COLLISION_BORDER getCollisionBorder() {
         if (nowAction == null) {
-            return defaultCollisionBorder;
+            return defaultFrame.getCollisionBorder();
         } else {
             return nowAction.nowFrame().getCollisionBorder();
         }
