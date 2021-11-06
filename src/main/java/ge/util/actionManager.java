@@ -17,12 +17,12 @@ public class actionManager {
         return manager;
     }
 
-    public geAction get(String actionName) {
-        return manager.get(actionName);
-    }
-
     public void add(String actionName, geAction action) {
         actionMap.put(actionName, action);
+    }
+
+    public geAction get(String actionName) {
+        return manager.get(actionName);
     }
 
 }

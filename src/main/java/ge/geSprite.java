@@ -4,9 +4,7 @@ import ge.base.COLLISION_BORDER;
 import ge.base.LINE;
 import ge.base.MOVABLE;
 import ge.base.POINT;
-import ge.util.frameManager;
-
-import java.awt.*;
+import ge.util.imageManager;
 
 public class geSprite implements MOVABLE {
     private geLayer parentLayer;
@@ -36,19 +34,19 @@ public class geSprite implements MOVABLE {
         nowAction = null;
     }
 
-    public Image getFrame() {
+    public Object getFrame() {
         if (parentLayer == null) {
             return null;
         }
 
         if (nowAction == null) {
-            return frameManager.getFrameManager().get(defaultFrameResourceName);
+            return imageManager.getFrameManager().get(defaultFrameResourceName);
         } else {
             return nowAction.nowFrame().getImage();
         }
     }
 
-    public Image nextFrame() {
+    public Object nextFrame() {
         return nowAction.next().getImage();
     }
 
