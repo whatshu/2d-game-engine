@@ -2,7 +2,7 @@ package ge;
 
 import ge.base.MOVABLE;
 import ge.base.POINT;
-import ge.util.frameManager;
+import ge.util.imageManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class geLayer implements MOVABLE {
     }
 
     public Image getBackground() {
-        return frameManager.getFrameManager().get(background);
+        return imageManager.getFrameManager().get(background);
     }
 
     public geSprite getSpriteByName(String name) {
@@ -71,6 +71,14 @@ public class geLayer implements MOVABLE {
 
     public String getName() {
         return name;
+    }
+
+    public float getWidth(){
+        return width;
+    }
+
+    public float getHeight(){
+        return height;
     }
 
     @Override

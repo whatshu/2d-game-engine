@@ -7,29 +7,48 @@ import java.util.List;
 
 public class geWindow {
 
-    class geContentJFrame extends JFrame {
+    class geContentPanel extends JPanel {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
+            if (layers == null || layers.size() == 0) return;
 
+            int minDepth = layers.get(0).getDepth();
+            int maxDepth = layers.get(0).getDepth();
             for (geLayer layer : layers) {
-                g.drawImage(layer.getBackground(), 100, 100, this);
+                if (layer.getDepth() < minDepth) minDepth = layer.getDepth();
+                if (layer.getDepth() > maxDepth) maxDepth = layer.getDepth();
             }
-            g.fillOval(0, 0, 100, 100);
+
+            for (int i = minDepth; i <= maxDepth; i++) {
+                for (geLayer layer : layers) {
+                    if (layer.isVisible() && layer.getDepth() == i) {
+                        int actualX = (int) ((layer.getX() + 1) / 2 * this.getWidth());
+                        int actualY = (int) ((1 - layer.getY()) / 2 * this.getHeight());
+                        int actualWidth = (int) (layer.getWidth() / 2 * this.getWidth());
+                        int actualHeight = (int) (layer.getHeight() / 2 * this.getHeight());
+                        g.drawImage(layer.getBackground(), actualX, actualY, actualWidth, actualHeight, this);
+                    }
+                }
+            }
         }
     }
 
-    private geContentJFrame mainJFrame;
+    private JFrame mainFrame;
+    private geContentPanel mainPanel;
     private List<geLayer> layers;
 
     public geWindow(int width, int height, String title) {
-        mainJFrame = new geContentJFrame();
+        mainFrame = new JFrame();
+        mainFrame.setResizable(false);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setTitle(title);
+        mainFrame.setVisible(true);
+        mainFrame.setSize(width, height);
 
-        mainJFrame.setSize(width, height);
-        mainJFrame.setResizable(false);
-        mainJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainJFrame.setTitle(title);
-        mainJFrame.setVisible(true);
+        mainPanel = new geContentPanel();
+        mainPanel.setBackground(Color.LIGHT_GRAY);
+        mainFrame.add(mainPanel);
 
         layers = new LinkedList<>();
     }
@@ -39,7 +58,7 @@ public class geWindow {
     }
 
     public void setSize(int width, int height) {
-        mainJFrame.setSize(width, height);
+        mainFrame.setSize(width, height);
     }
 
     public List<geLayer> getLayers() {
@@ -47,7 +66,7 @@ public class geWindow {
     }
 
     public void update() {
-        mainJFrame.repaint();
+        mainPanel.repaint();
     }
 
 }
