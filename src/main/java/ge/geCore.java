@@ -4,6 +4,7 @@ import ge.base.COLLISION_BORDER;
 import ge.geException.geException;
 import ge.util.frameManager;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,6 +27,16 @@ public class geCore {
             return false;
         }
         return true;
+    }
+
+    public boolean loadResource(String resourceName, Image image){
+        try {
+            frameManager.load(resourceName, image);
+        }catch (geException e){
+            return false;
+        }
+        return true;
+
     }
 
     public void addLayer(String name, String background, int depth, float x, float y, float width, float height) {
