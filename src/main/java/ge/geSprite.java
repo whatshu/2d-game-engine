@@ -4,6 +4,7 @@ import ge.base.COLLISION_BORDER;
 import ge.base.LINE;
 import ge.base.MOVABLE;
 import ge.base.POINT;
+import ge.util.animationManager;
 import ge.util.imageManager;
 
 public class geSprite implements MOVABLE {
@@ -27,7 +28,7 @@ public class geSprite implements MOVABLE {
     }
 
     public void setAction(String actionName) {
-        nowAction = ge.util.actionManager.getActionManager().get(actionName);
+//        nowAction = animationManager.getActionManager().get(actionName);
     }
 
     public void resetAction() {

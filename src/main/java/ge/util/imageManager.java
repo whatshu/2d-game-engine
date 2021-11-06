@@ -1,6 +1,7 @@
 package ge.util;
 
 import ge.geException.geException;
+import ge.geException.geIncompatibleFileType;
 import ge.geException.geLoadFailureException;
 
 import javax.imageio.ImageIO;
@@ -23,11 +24,19 @@ public class imageManager {
     private final Map<String, Image> imageMap = new HashMap();
 
     public void load(String resourceName, String filePath) throws geException {
+        if (!(filePath.endsWith("PNG") || filePath.endsWith("png") || filePath.endsWith("JPG") || filePath.endsWith("jpg"))) {
+            throw new geIncompatibleFileType();
+        }
+
         try {
             imageMap.put(resourceName, ImageIO.read(new File(filePath)));
         } catch (IOException e) {
             throw new geLoadFailureException();
         }
+    }
+
+    public void load(String resourceName, Image image) {
+        imageMap.put(resourceName, image);
     }
 
     public Image get(String resourceName) {

@@ -2,7 +2,8 @@ package ge;
 
 import ge.base.COLLISION_BORDER;
 import ge.geException.geException;
-import ge.util.actionManager;
+import ge.geException.geUnknownFileType;
+import ge.util.animationManager;
 import ge.util.imageManager;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public class geCore {
 
     private imageManager imageManager = ge.util.imageManager.getFrameManager();
-    private actionManager actionManager = ge.util.actionManager.getActionManager();
+    private animationManager animationManager = ge.util.animationManager.getAnimationManager();
     private geWindow window = new geWindow();
 
     public geCore() {
@@ -18,22 +19,28 @@ public class geCore {
 
     /**
      * load resources into managers
+     *
      * @return success
      */
-    public boolean loadResource(String resourceName, String filePath) {
-        try {
+    public void loadResource(String resourceName, String filePath) throws geException {
+        String suffix = filePath.substring(filePath.length() - 3);
+        if (suffix.equals("gif") || suffix.equals("GIF")) {
+            animationManager.load(resourceName, filePath);
+        } else if (suffix.equals("png") || suffix.equals("PNG") ||
+                suffix.equals("jpg") || suffix.equals("JPG")) {
             imageManager.load(resourceName, filePath);
-        } catch (geException e) {
-            return false;
+        } else {
+            throw new geUnknownFileType();
         }
-        return true;
+
     }
 
     /**
      * add one layer with normalized location and size
-     * @param name layer name
+     *
+     * @param name       layer name
      * @param background background resource name
-     * @param depth layer depth
+     * @param depth      layer depth
      * @return the layer added
      */
     public geLayer addLayer(String name, String background, int depth, float x, float y, float width, float height) {
@@ -90,6 +97,7 @@ public class geCore {
 
     /**
      * set layer to visible
+     *
      * @return the layer changed
      */
     public geLayer layerSetVisible(geLayer layer) {
@@ -99,6 +107,7 @@ public class geCore {
 
     /**
      * set layer to invisible
+     *
      * @return the layer changed
      */
     public geLayer layerSetInvisible(geLayer layer) {
@@ -108,6 +117,7 @@ public class geCore {
 
     /**
      * set layer depth
+     *
      * @return the layer changed
      */
     public geLayer layerSetDepth(geLayer layer, int depth) {
@@ -150,22 +160,13 @@ public class geCore {
     public static void main(String[] args) {
         geCore core = new geCore();
 
-        core.loadResource("test", "resources/123.jpg");
+        try {
+            core.loadResource("test", "resources/321.gif");
+        } catch (geException e) {
+            System.out.println(e);
+        }
         geLayer l1 = core.addLayer("layer-0", "test", 1, -1, 0, 2, 1);
         geLayer l2 = core.addLayer("layer-1", "test", 0, -1, 1, 2, 1.2f);
         core.update();
-
-        boolean t = false;
-        while (true) {
-            if (t) {
-                core.layerSetDepth(l1, 0);
-                core.layerSetDepth(l2, 1);
-            } else {
-                core.layerSetDepth(l1, 1);
-                core.layerSetDepth(l2, 0);
-            }
-            t = !t;
-            core.update();
-        }
     }
 }
