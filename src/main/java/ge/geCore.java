@@ -206,36 +206,104 @@ public class geCore {
     /**
      * add a new sprite to a layer
      */
-    public void addSprite(geLayer layer, String spriteName, Image defaultSpriteFrame, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
-        layer.addSprite(new geSprite(layer, spriteName, defaultSpriteFrame, defaultCollisionBorder, width, height));
+    public geSprite addSprite(geLayer layer, String spriteName, Image defaultSpriteFrame, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
+        geSprite t = new geSprite(layer, spriteName, defaultSpriteFrame, defaultCollisionBorder, width, height);
+        layer.addSprite(t);
+        return t;
     }
 
-    public void addSprite(String layerName, String spriteName, Image defaultSpriteFrame, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
-        addSprite(getLayerByName(layerName), spriteName, defaultSpriteFrame, defaultCollisionBorder, width, height);
+    public geSprite addSprite(String layerName, String spriteName, Image defaultSpriteFrame, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
+        return addSprite(getLayerByName(layerName), spriteName, defaultSpriteFrame, defaultCollisionBorder, width, height);
     }
 
-    public void addSprite(String layerName, String spriteName, String defaultSpriteFrameName, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
-        addSprite(getLayerByName(layerName), spriteName, imageManager.get(defaultSpriteFrameName), defaultCollisionBorder, width, height);
+    public geSprite addSprite(String layerName, String spriteName, String defaultSpriteFrameName, COLLISION_BORDER defaultCollisionBorder, float width, float height) {
+        return addSprite(getLayerByName(layerName), spriteName, imageManager.get(defaultSpriteFrameName), defaultCollisionBorder, width, height);
+    }
+
+    public geSprite getSpriteByName(String spriteName) {
+        for (geLayer layer : getLayers()) {
+            geSprite t = layer.getSpriteByName(spriteName);
+            if (t != null) {
+                return t;
+            }
+        }
+        return null;
+    }
+
+    public geLayer getSpriteLayer(geSprite sprite) {
+        return sprite.getLayer();
+    }
+
+    public geLayer getSpriteLayer(String spriteName) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            return t.getLayer();
+        } else {
+            return null;
+        }
     }
 
     /**
      * remove a sprite
      */
     public void removeSprite(geSprite sprite) {
-        for (geLayer layer : window.getLayers()) {
-            if (layer.containSprite(sprite)) {
-                layer.removeSprite(sprite);
-                break;
-            }
-        }
+        sprite.getLayer().removeSprite(sprite);
     }
 
     public void removeSprite(String spriteName) {
-        for (geLayer layer : window.getLayers()) {
-            if (layer.containSprite(spriteName)) {
-                layer.removeSprite(spriteName);
-                break;
-            }
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            removeSprite(t);
+        }
+    }
+
+    public void spriteSetStatic(geSprite sprite, boolean isStatic) {
+        sprite.setStaticCoordinate(isStatic);
+    }
+
+    public void spriteSetStatic(String spriteName, boolean isStatic) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            t.setStaticCoordinate(isStatic);
+        }
+    }
+
+    public boolean spriteIsStatic(geSprite sprite) {
+        return sprite.isStatic();
+    }
+
+    public boolean spriteIsStatic(String spriteName) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            return t.isStatic();
+        } else {
+            return false;
+        }
+    }
+
+    public boolean spriteHasAction(geSprite sprite) {
+        return sprite.hasAction();
+    }
+
+    public boolean spriteHasAction(String spriteName) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            return t.hasAction();
+        } else {
+            return false;
+        }
+    }
+
+    public String getSpriteNowAction(geSprite sprite) {
+        return sprite.getAction();
+    }
+
+    public String getSpriteNowAction(String spriteName) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            return t.getAction();
+        } else {
+            return null;
         }
     }
 
@@ -246,11 +314,63 @@ public class geCore {
         sprite.setAction(action);
     }
 
+    public void spriteSetAction(String spriteName, String action) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            t.setAction(action);
+        }
+    }
+
+    public void spriteNextFrame(geSprite sprite) {
+        sprite.nextFrame();
+    }
+
+    public void spriteNextFrame(String spriteName) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            t.nextFrame();
+        }
+    }
+
+    public void spriteResetAction(geSprite sprite) {
+        sprite.resetAction();
+    }
+
+    public void spriteResetAction(String sprite) {
+        geSprite t = getSpriteByName(sprite);
+        if (t != null) {
+            t.resetAction();
+        }
+    }
+
+    public void spriteMove(geSprite sprite, float dx, float dy) {
+        sprite.move(dx, dy);
+    }
+
+    public void spriteMove(String spriteName, float dx, float dy) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            t.move(dx, dy);
+        }
+    }
+
+    public void spriteMoveTo(geSprite sprite, float x, float y) {
+        sprite.set(x, y);
+    }
+
+    public void spriteMoveTo(String spriteName, float x, float y) {
+        geSprite t = getSpriteByName(spriteName);
+        if (t != null) {
+            t.set(x, y);
+        }
+    }
+
     public static void main(String[] args) {
         geCore core = new geCore();
 
         try {
             core.loadResource("gif_test", "resources/321.gif");
+            core.loadAction("sprite-action", "gif_test", COLLISION_BORDER.genDefaultCollisionBorder());
             core.loadResource("test", "resources/123.jpg");
             core.loadResource("sprite_test", "resources/1234.png");
         } catch (geException e) {
@@ -259,6 +379,17 @@ public class geCore {
         core.addLayer("layer-1", "test", 2, -1, 1, 2, 1.2f);
         core.addLayer("layer-0", "test", 1, -1, 0, 2, 1);
         core.addSprite("layer-0", "sprite-0", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.5f, 0.5f);
+        core.spriteSetAction("sprite-0", "sprite-action");
 
+        long last_frame_time = System.currentTimeMillis();
+        while (true) {
+            if (System.currentTimeMillis() - last_frame_time < 100) {
+                continue;
+            }
+            last_frame_time = System.currentTimeMillis();
+            core.spriteNextFrame("sprite-0");
+            core.spriteMove("sprite-0", 0.05f, 0);
+            core.update();
+        }
     }
 }

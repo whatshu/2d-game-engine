@@ -22,15 +22,15 @@ public class actionManager {
     }
 
     public void load(String actionName, List<java.awt.Image> images, List<COLLISION_BORDER> borders) {
-        actionMap.put(actionName, new geAction(images, borders));
+        actionMap.put(actionName, new geAction(actionName, images, borders));
     }
 
     public void load(String actionName, List<java.awt.Image> images, COLLISION_BORDER unifyBorder) {
-        actionMap.put(actionName, new geAction(images, unifyBorder));
+        actionMap.put(actionName, new geAction(actionName, images, unifyBorder));
     }
 
     public void load(String actionName, List<geFrame> frames) {
-        actionMap.put(actionName, new geAction(frames));
+        actionMap.put(actionName, new geAction(actionName, frames));
     }
 
     public geAction get(String actionName) {

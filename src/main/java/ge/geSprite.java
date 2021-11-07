@@ -16,6 +16,7 @@ public class geSprite implements MOVABLE {
     private final float width;
     private final float height;
     private float x, y;
+    private boolean staticCoordinate = false;
 
     public geSprite(geLayer parent, String name, Image image, COLLISION_BORDER collisionBorder, float w, float h) {
         this.parentLayer = parent;
@@ -43,6 +44,14 @@ public class geSprite implements MOVABLE {
         nowAction = null;
     }
 
+    public boolean hasAction() {
+        return nowAction != null;
+    }
+
+    public String getAction(){
+        return nowAction.getName();
+    }
+
     public geFrame getFrame() {
         if (parentLayer == null) {
             return null;
@@ -56,7 +65,11 @@ public class geSprite implements MOVABLE {
     }
 
     public geFrame nextFrame() {
-        return nowAction.next();
+        if (nowAction == null) {
+            return defaultFrame;
+        } else {
+            return nowAction.next();
+        }
     }
 
     public void resetFrame() {
@@ -95,6 +108,22 @@ public class geSprite implements MOVABLE {
 
     public geLayer getLayer() {
         return parentLayer;
+    }
+
+    public boolean isStatic() {
+        return staticCoordinate;
+    }
+
+    public void setStatic() {
+        staticCoordinate = true;
+    }
+
+    public void resetStatic() {
+        staticCoordinate = false;
+    }
+
+    public void setStaticCoordinate(Boolean s) {
+        staticCoordinate = s;
     }
 
     @Override
