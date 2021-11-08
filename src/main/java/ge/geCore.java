@@ -8,6 +8,7 @@ import ge.util.animationManager;
 import ge.util.imageManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class geCore {
@@ -16,6 +17,7 @@ public class geCore {
     private animationManager animationManager = ge.util.animationManager.getAnimationManager();
     private actionManager actionManager = ge.util.actionManager.getActionManager();
     private geWindow window = new geWindow();
+    private List<geEvent> events = new ArrayList<>();
 
     public geCore() {
     }
@@ -103,6 +105,14 @@ public class geCore {
      */
     public void update() {
         window.update();
+    }
+
+    public void pullEvent() {
+        for (geEvent event : events) {
+            if (event.predicate()) {
+                event.operate(this);
+            }
+        }
     }
 
     /*
@@ -365,31 +375,15 @@ public class geCore {
         }
     }
 
-    public static void main(String[] args) {
-        geCore core = new geCore();
+    /*
+    -------------       sprite part       --------------
+     */
 
-        try {
-            core.loadResource("gif_test", "resources/321.gif");
-            core.loadAction("sprite-action", "gif_test", COLLISION_BORDER.genDefaultCollisionBorder());
-            core.loadResource("test", "resources/123.jpg");
-            core.loadResource("sprite_test", "resources/1234.png");
-        } catch (geException e) {
-            System.out.println(e);
-        }
-        core.addLayer("layer-1", "test", 2, -1, 1, 2, 1.2f);
-        core.addLayer("layer-0", "test", 1, -1, 0, 2, 1);
-        core.addSprite("layer-0", "sprite-0", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.5f, 0.5f);
-        core.spriteSetAction("sprite-0", "sprite-action");
+    public void addEvent(geEvent e) {
+        events.add(e);
+    }
 
-        long last_frame_time = System.currentTimeMillis();
-        while (true) {
-            if (System.currentTimeMillis() - last_frame_time < 100) {
-                continue;
-            }
-            last_frame_time = System.currentTimeMillis();
-            core.spriteNextFrame("sprite-0");
-            core.spriteMove("sprite-0", 0.05f, 0);
-            core.update();
-        }
+    public void removeEvent(geEvent e) {
+        events.remove(e);
     }
 }
