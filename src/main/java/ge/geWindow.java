@@ -1,5 +1,8 @@
 package ge;
 
+import ge.base.POINT;
+import ge.base.SCREEN_POINT;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -23,20 +26,36 @@ public class geWindow {
             for (int i = minDepth; i <= maxDepth; i++) {
                 for (geLayer layer : layers) {
                     if (layer.isVisible() && layer.getDepth() == i) {
-                        int actualX = (int) ((layer.getX() + 1) / 2 * this.getWidth());
-                        int actualY = (int) ((1 - layer.getY()) / 2 * this.getHeight());
-                        int actualWidth = (int) (layer.getWidth() / 2 * this.getWidth());
-                        int actualHeight = (int) (layer.getHeight() / 2 * this.getHeight());
-                        g.drawImage(layer.getBackground(), actualX, actualY, actualWidth, actualHeight, this);
+                        SCREEN_POINT p = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(layer.getX(), layer.getY()), this.getWidth(), this.getHeight());
+
+                        int layerWidth  = (int) (layer.getWidth() / 2 * this.getWidth());
+                        int layerHeight = (int) (layer.getHeight() / 2 * this.getHeight());
+                        g.drawImage(layer.getBackground(), p.x, p.y, layerWidth, layerHeight, this);
+
+                        for (geSprite sprite : layer.getSprites()) {
+                            int spriteWidth  = (int) (sprite.getWidth() / 2 * this.getWidth());
+                            int spriteHeight = (int) (sprite.getHeight() / 2 * this.getHeight());
+
+                            SCREEN_POINT sp;
+                            if (sprite.isStatic()) {
+                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight);
+                            } else {
+                                POINT origin = new POINT(layer.getX() + layer.getWidth() / 2, layer.getY() + layer.getHeight() / 2);
+                                sp = new SCREEN_POINT(p, new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight); // todo
+                            }
+                            g.drawImage(sprite.getFrame().getImage(), sp.x, sp.y, spriteWidth, spriteHeight, this);
+                        }
                     }
                 }
             }
         }
     }
 
-    private JFrame mainFrame;
+    private JFrame         mainFrame;
     private geContentPanel mainPanel;
-    private List<geLayer> layers;
+    private List<geLayer>  layers;
+    private long           frameCount     = 0;
+    private long           lastUpdateTime = System.currentTimeMillis();
 
     public geWindow(int width, int height, String title) {
         mainFrame = new JFrame();
@@ -67,6 +86,8 @@ public class geWindow {
 
     public void update() {
         mainPanel.repaint();
+        frameCount += 1;
+        lastUpdateTime = System.currentTimeMillis();
     }
 
 }

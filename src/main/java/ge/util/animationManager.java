@@ -52,7 +52,7 @@ public class animationManager {
     }
 
     public List<Image> get(String animationName) {
-        return singleton.get(animationName);
+        return animationMap.get(animationName);
     }
 
 }

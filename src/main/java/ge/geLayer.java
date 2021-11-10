@@ -36,6 +36,10 @@ public class geLayer implements MOVABLE {
         s.abandon();
     }
 
+    public void removeSprite(String spriteName) {
+        removeSprite(getSpriteByName(spriteName));
+    }
+
     public Image getBackground() {
         return imageManager.getFrameManager().get(background);
     }
@@ -51,6 +55,14 @@ public class geLayer implements MOVABLE {
 
     public List<geSprite> getSprites() {
         return sprites;
+    }
+
+    public boolean containSprite(String name) {
+        return getSpriteByName(name) != null;
+    }
+
+    public boolean containSprite(geSprite sprite) {
+        return sprites.contains(sprite);
     }
 
     public boolean isVisible() {
@@ -94,13 +106,13 @@ public class geLayer implements MOVABLE {
     }
 
     @Override
-    public void set(float x, float y) {
+    public void moveTo(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
-    public void set(POINT p) {
+    public void moveTo(POINT p) {
         this.x = p.x;
         this.y = p.y;
     }
