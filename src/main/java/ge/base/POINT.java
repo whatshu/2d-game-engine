@@ -12,4 +12,9 @@ public class POINT {
     public LINE lineWithAnotherPoint(POINT other) {
         return new LINE(this, other);
     }
+
+    public static POINT zero() {
+        return new POINT(0, 0);
+    }
+
 }

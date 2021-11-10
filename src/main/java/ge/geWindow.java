@@ -38,10 +38,9 @@ public class geWindow {
 
                             SCREEN_POINT sp;
                             if (sprite.isStatic()) {
-                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight);
+                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), spriteWidth, spriteHeight);
                             } else {
-                                POINT origin = new POINT(layer.getX() + layer.getWidth() / 2, layer.getY() + layer.getHeight() / 2);
-                                sp = new SCREEN_POINT(p, new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight); // todo
+                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), sprite.getWindowPosition(POINT.zero()), spriteWidth, spriteHeight);
                             }
                             g.drawImage(sprite.getFrame().getImage(), sp.x, sp.y, spriteWidth, spriteHeight, this);
                         }

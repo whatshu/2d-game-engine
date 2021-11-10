@@ -34,6 +34,13 @@ public class geSprite implements MOVABLE {
         parent.addSprite(this);
     }
 
+    public POINT getWindowPosition(POINT p) {
+        POINT O1 = parentLayer.getPosition();
+        POINT O2 = new POINT(O1.x + parentLayer.getWidth() / 2, O1.y + parentLayer.getHeight() / 2);
+        POINT O3 = new POINT(O2.x + x * this.parentLayer.getWidth() / 2, O2.y + y * this.parentLayer.getHeight() / 2);
+        return new POINT(O3.x + p.x * width, O3.y + p.y * height);
+    }
+
     public void setAction(String actionName) {
         nowAction = actionManager.getActionManager().get(actionName);
     }
@@ -79,50 +86,34 @@ public class geSprite implements MOVABLE {
     }
 
     public boolean contact(geSprite other) {
-        POINT thisOrigin  = new POINT(0, 0);
-        POINT otherOrigin = new POINT(0, 0);
-
-        thisOrigin.x = this.parentLayer.getX() + this.parentLayer.getWidth() / 2;
-        thisOrigin.y = this.parentLayer.getY() + this.parentLayer.getHeight() / 2;
-        otherOrigin.x = other.parentLayer.getX() + other.parentLayer.getWidth() / 2;
-        otherOrigin.y = other.parentLayer.getY() + other.parentLayer.getHeight() / 2;
-
         float thisMaxX = -1;
         float thisMaxY = -1;
         float thisMinX = 1;
         float thisMinY = 1;
-
-        List<POINT> thisBorderPoints = this.getCollisionBorder().getPoints();
-        for (POINT thisBorderPoint : thisBorderPoints) {
-            float x = thisOrigin.x + thisBorderPoint.x * this.parentLayer.getWidth() / 2;
-            float y = thisOrigin.y + thisBorderPoint.y * this.parentLayer.getHeight() / 2;
-
-            if (x > thisMaxX) thisMaxX = x;
-            if (x < thisMinX) thisMinX = x;
-            if (y > thisMaxY) thisMaxY = y;
-            if (y < thisMinY) thisMinY = y;
+        for (POINT p : this.getCollisionBorder().getPoints()) {
+            POINT real = getWindowPosition(p);
+            if (real.x > thisMaxX) thisMaxX = real.x;
+            if (real.x < thisMinX) thisMinX = real.x;
+            if (real.y > thisMaxY) thisMaxY = real.y;
+            if (real.y < thisMinY) thisMinY = real.y;
         }
 
         float otherMaxX = -1;
         float otherMaxY = -1;
         float otherMinX = 1;
         float otherMinY = 1;
-
-        List<POINT> otherBorderPoints = this.getCollisionBorder().getPoints();
-        for (POINT otherBorderPoint : otherBorderPoints) {
-            float x = otherOrigin.x + otherBorderPoint.x * this.parentLayer.getWidth() / 2;
-            float y = otherOrigin.y + otherBorderPoint.y * this.parentLayer.getHeight() / 2;
-
-            if (x > otherMaxX) otherMaxX = x;
-            if (x < otherMinX) otherMinX = x;
-            if (y > otherMaxY) otherMaxY = y;
-            if (y < otherMinY) otherMinY = y;
+        for (POINT p : other.getCollisionBorder().getPoints()) {
+            POINT real = other.getWindowPosition(p);
+            if (real.x > otherMaxX) otherMaxX = real.x;
+            if (real.x < otherMinX) otherMinX = real.x;
+            if (real.y > otherMaxY) otherMaxY = real.y;
+            if (real.y < otherMinY) otherMinY = real.y;
         }
 
-        if (((thisMinX < otherMinX && otherMinX < thisMaxX && thisMaxX < otherMaxX) ||
-                (otherMinX < thisMaxX && thisMaxX < otherMaxX && otherMaxX < thisMaxX)) &&
-                ((thisMinY < otherMinY && otherMinY < thisMaxY && thisMaxY < otherMaxY) ||
-                        (otherMinY < thisMaxY && thisMaxY < otherMaxY && otherMaxY < thisMaxY))) {
+        if (((thisMinX <= otherMinX && otherMinX <= thisMaxX && thisMaxX <= otherMaxX) ||
+                (otherMinX <= thisMaxX && thisMaxX <= otherMaxX && otherMaxX <= thisMaxX)) &&
+                ((thisMinY <= otherMinY && otherMinY <= thisMaxY && thisMaxY <= otherMaxY) ||
+                        (otherMinY <= thisMaxY && thisMaxY <= otherMaxY && otherMaxY <= thisMaxY))) {
             return true;
         } else return false;
     }
