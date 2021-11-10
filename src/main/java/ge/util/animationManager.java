@@ -46,7 +46,6 @@ public class animationManager {
                 frames.add(t);
             }
             animationMap.put(resourceName, frames);
-            imageManager.getFrameManager().load("gif-0", frames.get(10)); // todo remove, only for test
         } catch (IOException e) {
             throw new geLoadFailureException();
         }

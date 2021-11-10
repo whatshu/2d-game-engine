@@ -7,9 +7,9 @@ public interface MOVABLE {
 
     void move(POINT dp);
 
-    void set(float x, float y);
+    void moveTo(float x, float y);
 
-    void set(POINT p);
+    void moveTo(POINT p);
 
     POINT getPosition();
 

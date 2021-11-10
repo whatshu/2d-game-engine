@@ -365,13 +365,13 @@ public class geCore {
     }
 
     public void spriteMoveTo(geSprite sprite, float x, float y) {
-        sprite.set(x, y);
+        sprite.moveTo(x, y);
     }
 
     public void spriteMoveTo(String spriteName, float x, float y) {
         geSprite t = getSpriteByName(spriteName);
         if (t != null) {
-            t.set(x, y);
+            t.moveTo(x, y);
         }
     }
 

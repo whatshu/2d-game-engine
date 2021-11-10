@@ -27,18 +27,21 @@ public class geWindow {
                 for (geLayer layer : layers) {
                     if (layer.isVisible() && layer.getDepth() == i) {
                         SCREEN_POINT p = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(layer.getX(), layer.getY()), this.getWidth(), this.getHeight());
-                        int layerWidth = (int) (layer.getWidth() / 2 * this.getWidth());
+
+                        int layerWidth  = (int) (layer.getWidth() / 2 * this.getWidth());
                         int layerHeight = (int) (layer.getHeight() / 2 * this.getHeight());
                         g.drawImage(layer.getBackground(), p.x, p.y, layerWidth, layerHeight, this);
 
                         for (geSprite sprite : layer.getSprites()) {
-                            int spriteWidth = (int) (sprite.getWidth() / 2 * this.getWidth());
+                            int spriteWidth  = (int) (sprite.getWidth() / 2 * this.getWidth());
                             int spriteHeight = (int) (sprite.getHeight() / 2 * this.getHeight());
-                            SCREEN_POINT sp = null;
+
+                            SCREEN_POINT sp;
                             if (sprite.isStatic()) {
-                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), spriteWidth, spriteHeight);
+                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight);
                             } else {
-                                sp = new SCREEN_POINT(p, new POINT(sprite.getX(), sprite.getY()), spriteWidth, spriteHeight);
+                                POINT origin = new POINT(layer.getX() + layer.getWidth() / 2, layer.getY() + layer.getHeight() / 2);
+                                sp = new SCREEN_POINT(p, new POINT(sprite.getX(), sprite.getY()), layerWidth, layerHeight); // todo
                             }
                             g.drawImage(sprite.getFrame().getImage(), sp.x, sp.y, spriteWidth, spriteHeight, this);
                         }
@@ -48,11 +51,11 @@ public class geWindow {
         }
     }
 
-    private JFrame mainFrame;
+    private JFrame         mainFrame;
     private geContentPanel mainPanel;
-    private List<geLayer> layers;
-    private long frameCount = 0;
-    private long lastUpdateTime = System.currentTimeMillis();
+    private List<geLayer>  layers;
+    private long           frameCount     = 0;
+    private long           lastUpdateTime = System.currentTimeMillis();
 
     public geWindow(int width, int height, String title) {
         mainFrame = new JFrame();
