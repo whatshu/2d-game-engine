@@ -1,6 +1,5 @@
 import ge.geCore;
 import ge.geEvent;
-import ge.geSprite;
 
 public class eventTest implements geEvent {
     private long last_frame_time = System.currentTimeMillis();
@@ -10,16 +9,20 @@ public class eventTest implements geEvent {
     @Override
     public void operate(geCore core) {
         last_frame_time = System.currentTimeMillis();
-        core.spriteNextFrame("sprite-0");
-        core.spriteMove("sprite-0", direction * 0.01f, 0);
-        core.spriteMove("sprite-1", -direction * 0.01f, 0);
+//        core.spriteNextFrame("sprite-0");
+//        core.spriteMove("sprite-0", direction * 0.01f, 0);
+//        core.spriteMove("sprite-1", -direction * 0.01f, 0);
+//        core.spriteMoveTo("sprite-0", -0.5f, -1f);
+//        core.spriteMoveTo("sprite-1", 0f, -1f);
 
-        geSprite sprite1 = core.getSpriteByName("sprite-0");
-        geSprite sprite2 = core.getSpriteByName("sprite-1");
-        if (sprite1.contact(sprite2)) {
-            System.out.println("contact");
-            direction = -direction;
-        }
+//        geSprite sprite1 = core.getSpriteByName("sprite-0");
+//        geSprite sprite2 = core.getSpriteByName("sprite-1");
+//        if (sprite1.contact(sprite2)) {
+//            System.out.println("contact");
+//            direction = -direction;
+//        }
+
+
     }
 
     @Override

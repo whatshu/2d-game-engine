@@ -1,6 +1,5 @@
 package ge.util;
 
-import com.sun.tools.attach.AgentInitializationException;
 import ge.geException.geException;
 import ge.geException.geLoadFailureException;
 

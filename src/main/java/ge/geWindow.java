@@ -68,11 +68,17 @@ public class geWindow {
         mainPanel.setBackground(Color.LIGHT_GRAY);
         mainFrame.add(mainPanel);
 
+        mainFrame.addKeyListener(geKeyBoard.getInstance());
+
         layers = new LinkedList<>();
     }
 
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
     public geWindow() {
-        this(480, 240, "default window title");
+        this(600, 500, "default window title");
     }
 
     public void setSize(int width, int height) {

@@ -22,6 +22,8 @@ public class geSprite implements MOVABLE {
         this.defaultFrame = new geFrame(image, collisionBorder);
         this.width = w;
         this.height = h;
+        this.x = 0f;
+        this.y = 0f;
         parent.addSprite(this);
     }
 
@@ -40,6 +42,12 @@ public class geSprite implements MOVABLE {
         POINT O3 = new POINT(O2.x + x * this.parentLayer.getWidth() / 2, O2.y + y * this.parentLayer.getHeight() / 2);
         return new POINT(O3.x + p.x * width, O3.y + p.y * height);
     }
+
+//    public POINT getWindowPosition(POINT p) {
+//        POINT O1 = parentLayer.getPosition();
+//        return new POINT(O1.x + 1/2 * parentLayer.getWidth() + p.x * parentLayer.getWidth(),
+//                O1.y + 1/2 * parentLayer.getHeight() - p.y * parentLayer.getHeight());
+//    }
 
     public void setAction(String actionName) {
         nowAction = actionManager.getActionManager().get(actionName);
