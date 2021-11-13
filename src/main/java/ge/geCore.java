@@ -1,6 +1,8 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
+import ge.base.COORDINATE;
+import ge.base.POINT;
 import ge.geException.geException;
 import ge.geException.geUnknownFileType;
 import ge.util.actionManager;
@@ -13,11 +15,11 @@ import java.util.List;
 
 public class geCore {
 
-    private imageManager imageManager = ge.util.imageManager.getFrameManager();
+    private imageManager     imageManager     = ge.util.imageManager.getFrameManager();
     private animationManager animationManager = ge.util.animationManager.getAnimationManager();
-    private actionManager actionManager = ge.util.actionManager.getActionManager();
-    private geWindow window = new geWindow();
-    private List<geEvent> events = new ArrayList<>();
+    private actionManager    actionManager    = ge.util.actionManager.getActionManager();
+    private geWindow         window           = new geWindow();
+    private List<geEvent>    events           = new ArrayList<>();
 
     public geCore() {
     }

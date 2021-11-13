@@ -1,7 +1,9 @@
 package ge;
 
+import ge.base.COORDINATE;
 import ge.base.MOVABLE;
 import ge.base.POINT;
+import ge.base.SCREEN_POINT;
 import ge.util.imageManager;
 
 import java.awt.*;
@@ -9,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class geLayer implements MOVABLE {
-    private float x, y;
+    private COORDINATE coordinate;
+    private float      x, y;
     private float width, height;
-    private String background;
+    private String         background;
     private List<geSprite> sprites = new ArrayList<>();
-    private boolean visible = true;
-    private int depth;
-    private String name;
+    private boolean        visible = true;
+    private int            depth;
+    private String         name;
 
     public geLayer(String name, String background, int depth, float x, float y, float w, float h) {
         this.x = x;
@@ -25,9 +28,10 @@ public class geLayer implements MOVABLE {
         this.background = background;
         this.depth = depth;
         this.name = name;
+        this.coordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CENTER, new POINT(0.5f, 0.5f), 1, 1, 1, 1);
     }
 
-    public void addSprite(geSprite s){
+    public void addSprite(geSprite s) {
         sprites.add(s);
     }
 
@@ -85,41 +89,56 @@ public class geLayer implements MOVABLE {
         return name;
     }
 
-    public float getWidth(){
+    public float getWidth() {
         return width;
     }
 
-    public float getHeight(){
+    public float getHeight() {
         return height;
+    }
+
+    private void updateAllSpriteCoordinate(){
+        for (geSprite sprite : sprites) {
+            sprite.updateCoordinate();
+        }
     }
 
     @Override
     public void move(float dx, float dy) {
         x += dx;
         y += dy;
+        updateAllSpriteCoordinate();
     }
 
     @Override
     public void move(POINT dp) {
         x += dp.x;
         y += dp.y;
+        updateAllSpriteCoordinate();
     }
 
     @Override
     public void moveTo(float x, float y) {
         this.x = x;
         this.y = y;
+        updateAllSpriteCoordinate();
     }
 
     @Override
     public void moveTo(POINT p) {
         this.x = p.x;
         this.y = p.y;
+        updateAllSpriteCoordinate();
     }
 
     @Override
     public POINT getPosition() {
         return new POINT(x, y);
+    }
+
+    @Override
+    public POINT getWindowPosition() {
+        return getCoordinate().getStandardPoint(x, y);
     }
 
     @Override
@@ -130,5 +149,10 @@ public class geLayer implements MOVABLE {
     @Override
     public float getY() {
         return y;
+    }
+
+    @Override
+    public COORDINATE getCoordinate() {
+        return coordinate;
     }
 }

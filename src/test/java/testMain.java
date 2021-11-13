@@ -16,15 +16,12 @@ public class testMain {
         } catch (geException e) {
             System.out.println(e);
         }
-        core.addLayer("layer-1", "test", 0, -1, 1, 2, 1.2f);
-        core.addLayer("layer-0", "test", 1, -1, 0, 2, 1);
-        core.addSprite("layer-0", "sprite-0", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.5f, 0.5f);
-        core.addSprite("layer-0", "sprite-1", "sprite2_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.5f, 0.5f);
-        core.spriteMoveTo("sprite-0", -1.5f, 0);
-        core.spriteMoveTo("sprite-1", 1.5f, 0);
-
+        core.addLayer("layer-0", "test", 1, -1, 0, 1, .5f);
+        core.addSprite("layer-0", "sprite-0", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.25f, 0.25f);
+        core.addSprite("layer-0", "sprite-1", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.25f, 0.25f);
+        core.spriteMoveTo("sprite-1", -1, 1);
+        core.spriteMoveTo("sprite-0", 0.75f, 1);
         core.spriteSetAction("sprite-0", "sprite-action");
-
         core.addEvent(new eventTest());
 
         while (true) {

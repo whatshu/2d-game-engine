@@ -42,7 +42,6 @@ public class COORDINATE {
     public POINT getStandardPoint(float x, float y) {
         if (coordinateType == COORDINATE_TYPE.CENTER) y = -y; // if center, convert to corner
         POINT p = new POINT(origin.x + width / xRange * x, origin.y + height / yRange * y);
-        if (coordinateType == COORDINATE_TYPE.CENTER) p.y = -p.y; // if converted, convert it back
         return p;
     }
 

@@ -23,26 +23,16 @@ public class geWindow {
                 if (layer.getDepth() > maxDepth) maxDepth = layer.getDepth();
             }
 
+            SCREEN_POINT.setScreenSize(this.getWidth(), this.getHeight());
             for (int i = minDepth; i <= maxDepth; i++) {
                 for (geLayer layer : layers) {
                     if (layer.isVisible() && layer.getDepth() == i) {
-                        SCREEN_POINT p = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(layer.getX(), layer.getY()), this.getWidth(), this.getHeight());
-
-                        int layerWidth  = (int) (layer.getWidth() / 2 * this.getWidth());
-                        int layerHeight = (int) (layer.getHeight() / 2 * this.getHeight());
-                        g.drawImage(layer.getBackground(), p.x, p.y, layerWidth, layerHeight, this);
+                        SCREEN_POINT p = new SCREEN_POINT(layer.getWindowPosition());
+                        g.drawImage(layer.getBackground(), p.x, p.y, (int) (layer.getWidth() * this.getWidth()), (int) (layer.getHeight() * this.getHeight()), this);
 
                         for (geSprite sprite : layer.getSprites()) {
-                            int spriteWidth  = (int) (sprite.getWidth() / 2 * this.getWidth());
-                            int spriteHeight = (int) (sprite.getHeight() / 2 * this.getHeight());
-
-                            SCREEN_POINT sp;
-                            if (sprite.isStatic()) {
-                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), new POINT(sprite.getX(), sprite.getY()), spriteWidth, spriteHeight);
-                            } else {
-                                sp = new SCREEN_POINT(SCREEN_POINT.genOriginPoint(), sprite.getWindowPosition(POINT.zero()), spriteWidth, spriteHeight);
-                            }
-                            g.drawImage(sprite.getFrame().getImage(), sp.x, sp.y, spriteWidth, spriteHeight, this);
+                            SCREEN_POINT sp = new SCREEN_POINT(sprite.getWindowPosition());
+                            g.drawImage(sprite.getFrame().getImage(), sp.x, sp.y, (int) (sprite.getWidth() * this.getWidth()), (int) (sprite.getHeight() * this.getHeight()), this);
                         }
                     }
                 }

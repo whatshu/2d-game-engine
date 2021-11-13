@@ -5,7 +5,8 @@ public class SCREEN_POINT {
     public int y;
 
     private static SCREEN_POINT last = null;
-
+    private static int          screenWidth;
+    private static int          screenHeight;
 
     public SCREEN_POINT(int x, int y) {
         this.x = x;
@@ -13,9 +14,9 @@ public class SCREEN_POINT {
         last = this;
     }
 
-    public SCREEN_POINT(SCREEN_POINT O, POINT p, int width, int height) {
-        x = (int) (O.x + width * (p.x + 1) / 2);
-        y = (int) (O.y + height * (1 - p.y) / 2);
+    public SCREEN_POINT(POINT p) {
+        x = (int) (p.x * screenWidth);
+        y = (int) (p.y * screenHeight);
         last = this;
     }
 
@@ -23,7 +24,8 @@ public class SCREEN_POINT {
         return last;
     }
 
-    public static SCREEN_POINT genOriginPoint() {
-        return new SCREEN_POINT(0, 0);
+    public static void setScreenSize(int width, int height) {
+        screenHeight = height;
+        screenWidth = width;
     }
 }
