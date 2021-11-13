@@ -5,7 +5,8 @@ import java.awt.event.KeyListener;
 
 public class geKeyBoard implements KeyListener {
 
-    private static float unit = 0.05f;
+    private static float unit = 0.01f;
+    private static final float JUMP_HEIGHT = 5 * unit;
 
     private geCore core = null;
     private String spriteName = null;
@@ -66,7 +67,7 @@ public class geKeyBoard implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        press(e);
+
     }
 
     @Override
@@ -76,7 +77,7 @@ public class geKeyBoard implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        press(e);
+
     }
 
     /* only change the place of sprite */
@@ -92,16 +93,16 @@ public class geKeyBoard implements KeyListener {
                 break;
             case KeyEvent.VK_UP:
                 if(lastDirection == DIRECTION.LEFR){
-                    this.core.getSpriteByName(this.spriteName).move(-unit,unit);
+                    this.core.getSpriteByName(this.spriteName).move(-unit,JUMP_HEIGHT);
                 }else if(lastDirection == DIRECTION.RIGHT){
-                    this.core.getSpriteByName(this.spriteName).move(unit,unit);
+                    this.core.getSpriteByName(this.spriteName).move(unit,JUMP_HEIGHT);
                 }
                 break;
             case KeyEvent.VK_DOWN:
                 if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.HEIGHER){
-                    this.core.getSpriteByName(this.spriteName).move(-unit,-unit);
+                    this.core.getSpriteByName(this.spriteName).move(-unit,-JUMP_HEIGHT);
                 }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.HEIGHER){
-                    this.core.getSpriteByName(this.spriteName).move(unit,-unit);
+                    this.core.getSpriteByName(this.spriteName).move(unit,-JUMP_HEIGHT);
                 }else if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.EQUAL){
                     this.core.getSpriteByName(this.spriteName).move(-unit,0f);
                 }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.EQUAL){
@@ -129,10 +130,10 @@ public class geKeyBoard implements KeyListener {
             case KeyEvent.VK_UP:
                 if(lastDirection == DIRECTION.LEFR){
                     this.core.getLayerByName(this.background).move(unit, 0f);
-                    this.core.getSpriteByName(this.spriteName).move(0f, unit);
+                    this.core.getSpriteByName(this.spriteName).move(0f, JUMP_HEIGHT);
                 }else if(lastDirection == DIRECTION.RIGHT){
                     this.core.getLayerByName(this.background).move(-unit, 0f);
-                    this.core.getSpriteByName(this.spriteName).move(0f, unit);
+                    this.core.getSpriteByName(this.spriteName).move(0f, JUMP_HEIGHT);
                 }
                 break;
             case KeyEvent.VK_DOWN:
@@ -146,10 +147,10 @@ public class geKeyBoard implements KeyListener {
     private void getDown(){
         if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.HEIGHER){
             this.core.getLayerByName(this.background).move(unit, 0f);
-            this.core.getSpriteByName(this.spriteName).move(0f, -unit);
+            this.core.getSpriteByName(this.spriteName).move(0f, -JUMP_HEIGHT);
         }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.HEIGHER){
             this.core.getLayerByName(this.background).move(-unit, 0f);
-            this.core.getSpriteByName(this.spriteName).move(0f, -unit);
+            this.core.getSpriteByName(this.spriteName).move(0f, -JUMP_HEIGHT);
         }else if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.EQUAL){
             this.core.getLayerByName(this.background).move(unit, 0f);
         }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.EQUAL){
