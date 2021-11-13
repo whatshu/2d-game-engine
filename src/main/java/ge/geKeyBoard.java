@@ -66,7 +66,7 @@ public class geKeyBoard implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        press(e);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class geKeyBoard implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        press(e);
     }
 
     /* only change the place of sprite */
@@ -107,7 +107,6 @@ public class geKeyBoard implements KeyListener {
                 }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.EQUAL){
                     this.core.getSpriteByName(this.spriteName).move(unit,0f);
                 }
-
                 break;
             default:
                 break;
@@ -120,10 +119,12 @@ public class geKeyBoard implements KeyListener {
             case KeyEvent.VK_LEFT:
                 this.core.getLayerByName(this.background).move(unit, 0f);
                 lastDirection = DIRECTION.LEFR;
+                getDown();
                 break;
             case KeyEvent.VK_RIGHT:
                 this.core.getLayerByName(this.background).move(-unit, 0f);
                 lastDirection = DIRECTION.RIGHT;
+                getDown();
                 break;
             case KeyEvent.VK_UP:
                 if(lastDirection == DIRECTION.LEFR){
@@ -135,20 +136,24 @@ public class geKeyBoard implements KeyListener {
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.HEIGHER){
-                    this.core.getLayerByName(this.background).move(unit, 0f);
-                    this.core.getSpriteByName(this.spriteName).move(0f, -unit);
-                }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.HEIGHER){
-                    this.core.getLayerByName(this.background).move(-unit, 0f);
-                    this.core.getSpriteByName(this.spriteName).move(0f, -unit);
-                }else if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.EQUAL){
-                    this.core.getLayerByName(this.background).move(unit, 0f);
-                }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.EQUAL){
-                    this.core.getLayerByName(this.background).move(-unit, 0f);
-                }
+
                 break;
             default:
                 break;
+        }
+    }
+
+    private void getDown(){
+        if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.HEIGHER){
+            this.core.getLayerByName(this.background).move(unit, 0f);
+            this.core.getSpriteByName(this.spriteName).move(0f, -unit);
+        }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.HEIGHER){
+            this.core.getLayerByName(this.background).move(-unit, 0f);
+            this.core.getSpriteByName(this.spriteName).move(0f, -unit);
+        }else if(lastDirection == DIRECTION.LEFR && isLanded() == LAND.EQUAL){
+            this.core.getLayerByName(this.background).move(unit, 0f);
+        }else if(lastDirection == DIRECTION.RIGHT && isLanded() == LAND.EQUAL){
+            this.core.getLayerByName(this.background).move(-unit, 0f);
         }
     }
 
