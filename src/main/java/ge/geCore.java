@@ -1,27 +1,34 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
-import ge.base.COORDINATE;
-import ge.base.POINT;
 import ge.geException.geException;
 import ge.geException.geUnknownFileType;
 import ge.util.actionManager;
 import ge.util.animationManager;
 import ge.util.imageManager;
+import ge.util.keyboardManager;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class geCore {
 
-    private imageManager     imageManager     = ge.util.imageManager.getFrameManager();
-    private animationManager animationManager = ge.util.animationManager.getAnimationManager();
-    private actionManager    actionManager    = ge.util.actionManager.getActionManager();
-    private geWindow         window           = new geWindow();
-    private List<geEvent>    events           = new ArrayList<>();
+    private final imageManager     imageManager     = ge.util.imageManager.getFrameManager();
+    private final animationManager animationManager = ge.util.animationManager.getAnimationManager();
+    private final actionManager    actionManager    = ge.util.actionManager.getActionManager();
+    private final keyboardManager  keyboardManager  = ge.util.keyboardManager.getKeyboardManager();
+    private final geWindow         window           = new geWindow(this);
+    private final List<geEvent>    events           = new ArrayList<>();
+    private final String           name;
 
-    public geCore() {
+    public geCore(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /*
@@ -115,6 +122,10 @@ public class geCore {
                 event.operate(this);
             }
         }
+    }
+
+    public void performKeyEvent(int keycode) {
+        keyboardManager.perform(keycode, this);
     }
 
     /*
@@ -378,7 +389,7 @@ public class geCore {
     }
 
     /*
-    -------------       sprite part       --------------
+    -------------       event part       --------------
      */
 
     public void addEvent(geEvent e) {
@@ -387,5 +398,13 @@ public class geCore {
 
     public void removeEvent(geEvent e) {
         events.remove(e);
+    }
+
+    public void addKeyEvent(int keycode, geEvent e) {
+        keyboardManager.addKeyEvent(keycode, e);
+    }
+
+    public void removeEvent(int keycode) {
+        keyboardManager.removeKeyEvent(keycode);
     }
 }

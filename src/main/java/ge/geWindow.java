@@ -5,6 +5,8 @@ import ge.base.SCREEN_POINT;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,13 +42,32 @@ public class geWindow {
         }
     }
 
+    private geCore         core;
     private JFrame         mainFrame;
     private geContentPanel mainPanel;
-    private List<geLayer>  layers;
+    private List<geLayer>  layers         = new LinkedList<>();
     private long           frameCount     = 0;
     private long           lastUpdateTime = System.currentTimeMillis();
+    private KeyListener    keyListener    = new KeyListener() {
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // skip
+        }
 
-    public geWindow(int width, int height, String title) {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            core.performKeyEvent(e.getKeyCode());
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // skip
+        }
+    };
+
+    public geWindow(geCore core, int width, int height, String title) {
+        this.core = core;
+
         mainFrame = new JFrame();
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,11 +79,11 @@ public class geWindow {
         mainPanel.setBackground(Color.LIGHT_GRAY);
         mainFrame.add(mainPanel);
 
-        layers = new LinkedList<>();
+        mainFrame.addKeyListener(keyListener);
     }
 
-    public geWindow() {
-        this(480, 240, "default window title");
+    public geWindow(geCore core) {
+        this(core, 480, 240, "default window title");
     }
 
     public void setSize(int width, int height) {
