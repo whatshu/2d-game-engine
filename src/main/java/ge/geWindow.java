@@ -1,6 +1,6 @@
 package ge;
 
-import ge.base.POINT;
+import ge.base.KEY;
 import ge.base.SCREEN_POINT;
 
 import javax.swing.*;
@@ -51,17 +51,17 @@ public class geWindow {
     private KeyListener    keyListener    = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
-            // skip
+            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.TYPED));
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            core.performKeyEvent(e.getKeyCode());
+            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.PRESSED));
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            // skip
+            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.RELEASED));
         }
     };
 

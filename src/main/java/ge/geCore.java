@@ -1,6 +1,7 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
+import ge.base.KEY;
 import ge.geException.geException;
 import ge.geException.geUnknownFileType;
 import ge.util.actionManager;
@@ -124,8 +125,8 @@ public class geCore {
         }
     }
 
-    public void performKeyEvent(int keycode) {
-        keyboardManager.perform(keycode, this);
+    public void performKeyEvent(KEY key) {
+        keyboardManager.perform(key, this);
     }
 
     /*
@@ -400,11 +401,11 @@ public class geCore {
         events.remove(e);
     }
 
-    public void addKeyEvent(int keycode, geEvent e) {
-        keyboardManager.addKeyEvent(keycode, e);
+    public void addKeyEvent(KEY key, geEvent e) {
+        keyboardManager.addKeyEvent(key, e);
     }
 
-    public void removeEvent(int keycode) {
-        keyboardManager.removeKeyEvent(keycode);
+    public void removeEvent(KEY key) {
+        keyboardManager.removeKeyEvent(key);
     }
 }

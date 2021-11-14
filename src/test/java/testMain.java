@@ -1,4 +1,5 @@
 import ge.base.COLLISION_BORDER;
+import ge.base.KEY;
 import ge.geCore;
 import ge.geException.geException;
 
@@ -27,12 +28,12 @@ public class testMain {
         core.spriteSetAction("sprite-0", "sprite-action");
 //        core.addEvent(new eventTest());
 
-        core.addKeyEvent(KeyEvent.VK_D, new keyEventTest());
+        core.addKeyEvent(KEY.getKeyInstance(KeyEvent.VK_D, KEY.KEY_TYPE.PRESSED), new DPressed());
+        core.addKeyEvent(KEY.getKeyInstance(KeyEvent.VK_S, KEY.KEY_TYPE.PRESSED), new SPressed());
 
         while (true) {
             core.pullEvent();
             core.update();
         }
     }
-
 }
