@@ -16,13 +16,13 @@ import java.util.List;
 
 public class geCore {
 
-    private final imageManager     imageManager     = ge.util.imageManager.getFrameManager();
+    private final imageManager imageManager = ge.util.imageManager.getFrameManager();
     private final animationManager animationManager = ge.util.animationManager.getAnimationManager();
-    private final actionManager    actionManager    = ge.util.actionManager.getActionManager();
-    private final keyboardManager  keyboardManager  = ge.util.keyboardManager.getKeyboardManager();
-    private final geWindow         window           = new geWindow(this);
-    private final List<geEvent>    events           = new ArrayList<>();
-    private final String           name;
+    private final actionManager actionManager = ge.util.actionManager.getActionManager();
+    private final keyboardManager keyboardManager = ge.util.keyboardManager.getKeyboardManager();
+    private final geWindow window = new geWindow(this);
+    private final List<geEvent> events = new ArrayList<>();
+    private final String name;
 
     public geCore(String name) {
         this.name = name;
@@ -30,6 +30,13 @@ public class geCore {
 
     public String getName() {
         return name;
+    }
+
+    public void delay(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ignored) {
+        }
     }
 
     /*
