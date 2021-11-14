@@ -211,7 +211,7 @@ public class geSprite implements MOVABLE {
     @Override
     public COORDINATE getCoordinate() {
         if (staticCoordinate) {
-            return COORDINATE.windowCoordinate();
+            return parentLayer.getCoordinate();
         } else {
             return coordinate;
         }

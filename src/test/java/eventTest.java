@@ -11,7 +11,8 @@ public class eventTest implements geEvent {
     public void operate(geCore core) {
         last_frame_time = System.currentTimeMillis();
         core.spriteNextFrame("sprite-0");
-        core.spriteMove("sprite-0", direction * 0.01f, 0);
+//        core.spriteMove("sprite-0", direction * 0.01f, 0);
+        core.getLayerByName("layer-0").move(0.01f, 0);
 
         geSprite sprite1 = core.getSpriteByName("sprite-0");
         geSprite sprite2 = core.getSpriteByName("sprite-1");
