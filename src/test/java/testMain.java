@@ -28,8 +28,8 @@ public class testMain {
         core.spriteSetAction("sprite-0", "sprite-action");
 //        core.addEvent(new eventTest());
 
-        core.addKeyEvent(KEY.getKeyInstance(KeyEvent.VK_D, KEY.KEY_TYPE.PRESSED), new DPressed());
-        core.addKeyEvent(KEY.getKeyInstance(KeyEvent.VK_S, KEY.KEY_TYPE.PRESSED), new SPressed());
+        core.addKeyEvent(KEY.getKey(KeyEvent.VK_D, KEY.KEY_TYPE.PRESSED), new DPressed());
+        core.addKeyEvent(KEY.getKey(KeyEvent.VK_S, KEY.KEY_TYPE.PRESSED), new SPressed());
 
         while (true) {
             core.pullEvent();

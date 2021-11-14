@@ -18,7 +18,7 @@ public class KEY {
         this.keyType = keyType;
     }
 
-    public static KEY getKeyInstance(int keyCode, KEY_TYPE keyType) {
+    public static KEY getKey(int keyCode, KEY_TYPE keyType) {
         for (KEY key : keyList) {
             if (key.keyCode == keyCode && key.keyType == keyType) {
                 return key;

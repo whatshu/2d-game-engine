@@ -223,6 +223,28 @@ public class geCore {
         return layer.getDepth();
     }
 
+    public void layerMove(geLayer layer, float dx, float dy) {
+        layer.move(dx, dy);
+    }
+
+    public void layerMove(String layerName, float dx, float dy) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.move(dx, dy);
+        }
+    }
+
+    public void layerMoveTo(geLayer layer, float x, float y) {
+        layer.moveTo(x, y);
+    }
+
+    public void layerMoveTo(String layerName, float x, float y) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.moveTo(x, y);
+        }
+    }
+
     /*
     -------------       sprite part       --------------
      */

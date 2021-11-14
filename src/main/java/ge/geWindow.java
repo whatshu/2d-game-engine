@@ -51,17 +51,17 @@ public class geWindow {
     private KeyListener    keyListener    = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
-            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.TYPED));
+            core.performKeyEvent(KEY.getKey(e.getKeyCode(), KEY.KEY_TYPE.TYPED));
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.PRESSED));
+            core.performKeyEvent(KEY.getKey(e.getKeyCode(), KEY.KEY_TYPE.PRESSED));
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            core.performKeyEvent(KEY.getKeyInstance(e.getKeyCode(), KEY.KEY_TYPE.RELEASED));
+            core.performKeyEvent(KEY.getKey(e.getKeyCode(), KEY.KEY_TYPE.RELEASED));
         }
     };
 
