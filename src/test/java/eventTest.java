@@ -14,9 +14,7 @@ public class eventTest implements geEvent {
 //        core.spriteMove("sprite-0", direction * 0.01f, 0);
         core.getLayerByName("layer-0").move(0.01f, 0);
 
-        geSprite sprite1 = core.getSpriteByName("sprite-0");
-        geSprite sprite2 = core.getSpriteByName("sprite-1");
-        if (sprite1.contact(sprite2)) {
+        if (core.getSpriteByName("sprite-0").contact(core.getSpriteByName("sprite-1"))) {
             System.out.println("contact");
             direction = -direction;
         }

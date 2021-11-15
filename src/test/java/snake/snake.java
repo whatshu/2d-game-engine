@@ -21,7 +21,7 @@ public class snake {
     }
 
     // constants
-    private final long UPDATE_GAP = 500; // millisecond
+    private final long UPDATE_GAP = 800; // millisecond
     private final int WIDTH = 10;
     private final int HEIGHT = 10;
     private final float GRID_WIDTH = 1.0f / WIDTH;
@@ -37,6 +37,7 @@ public class snake {
     private geSprite food;
     private int foodX = -2;
     private int foodY = 0;
+    private boolean gameEnd = false;
 
     private POINT convertToGePoint(snakePoint p) {
         return new POINT(((float) p.x) / ((float) WIDTH) * 2.0f, ((float) p.y) / ((float) HEIGHT) * 2.0f);
@@ -75,6 +76,13 @@ public class snake {
         if (nextHeadPos.x < -WIDTH / 2) nextHeadPos.x = WIDTH / 2 - 1;
         if (nextHeadPos.y >= HEIGHT / 2) nextHeadPos.y = -HEIGHT / 2;
         if (nextHeadPos.y < -HEIGHT / 2) nextHeadPos.y = HEIGHT / 2 - 1;
+
+        for (int i = 1; i < body.size(); i++) {
+            if (body.get(i).getX() == body.get(0).getX() && body.get(i).getY() == body.get(0).getY()) {
+                gameEnd = true;
+                return;
+            }
+        }
 
         if (nextHeadPos.x == foodX && nextHeadPos.y == foodY) {
             body.add(core.addSprite("background", "body-" + body.size(), "circle", COLLISION_BORDER.genDefaultCollisionBorder(), GRID_WIDTH, GRID_HEIGHT));
@@ -192,7 +200,7 @@ public class snake {
     }
 
     public void run() {
-        while (true) {
+        while (!gameEnd) {
             core.pullEvent();
             core.update(); // update data exclude the window for data need more framerate to ensure receiving every user input
         }

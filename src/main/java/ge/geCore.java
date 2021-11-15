@@ -43,6 +43,10 @@ public class geCore {
     -------------       resource part       --------------
      */
 
+    public imageManager getImageManager() {
+        return imageManager;
+    }
+
     /**
      * load resources into managers
      *
@@ -203,6 +207,14 @@ public class geCore {
         return layer;
     }
 
+    public geLayer layerSetVisible(String layerName) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.setVisible(true);
+        }
+        return t;
+    }
+
     /**
      * set layer to invisible
      *
@@ -211,6 +223,14 @@ public class geCore {
     public geLayer layerSetInvisible(geLayer layer) {
         layer.setVisible(false);
         return layer;
+    }
+
+    public geLayer layerSetInvisible(String layerName) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.setVisible(false);
+        }
+        return t;
     }
 
     /**
