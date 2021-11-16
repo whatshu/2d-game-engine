@@ -1,41 +1,39 @@
 import ge.base.COLLISION_BORDER;
+import ge.base.KEY;
 import ge.geCore;
 import ge.geException.geException;
-import ge.geKeyBoard;
+
+import java.awt.event.KeyEvent;
 
 public class testMain {
 
     public static void main(String[] args) {
-        geCore core = new geCore();
+        geCore core = new geCore("test-core");
 
         try {
-            core.loadResource("gif_test", "resources/hammer.gif");
+            core.loadResource("gif_test", "resources/321.gif");
             core.loadAction("sprite-action", "gif_test", COLLISION_BORDER.genDefaultCollisionBorder());
-            core.loadResource("test", "resources/jpg.jpg");
-            core.loadResource("sprite_test", "resources/bw.jpg");
-            core.loadResource("sprite2_test", "resources/1004.jpg");
+            core.loadResource("test", "resources/123.jpg");
+            core.loadResource("sprite_test", "resources/1234.png");
+            core.loadResource("sprite2_test", "resources/4321.png");
         } catch (geException e) {
             System.out.println(e);
         }
-        core.addLayer("layer-0", "test", 1, -1f, 1f, 2f, 2f);
-//        core.addSprite("layer-0", "sprite-0", "sprite_test",
-//                COLLISION_BORDER.genDefaultCollisionBorder(), 1f, 1f);
-        core.addSprite("layer-0", "sprite-1", "sprite2_test",
-                COLLISION_BORDER.genDefaultCollisionBorder(), 0.5f, 0.5f);
-//        core.spriteMoveTo("sprite-0", -1.5f, -1.5f);
-        core.spriteMoveTo("sprite-1", 2f, -4f);
+        core.addLayer("layer-0", "test", 1, -1, 0, 1, .5f);
+        core.addLayer("layer-1", "test", 1, 0, 0, 1, .5f);
+        core.addSprite("layer-0", "sprite-0", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.25f, 0.25f);
+        core.addSprite("layer-0", "sprite-1", "sprite_test", COLLISION_BORDER.genDefaultCollisionBorder(), 0.25f, 0.25f);
+        core.spriteMoveTo("sprite-1", -1, 1);
+        core.spriteMoveTo("sprite-0", 0.75f, 1);
+        core.spriteSetAction("sprite-0", "sprite-action");
+//        core.addEvent(new eventTest());
 
-//        core.spriteSetAction("sprite-0", "sprite-action");
-
-        core.addEvent(new eventTest());
-
-
-        geKeyBoard.getInstance().setObject(core, "sprite-1", "layer-0");
+        core.addKeyEvent(KEY.getKey(KeyEvent.VK_D, KEY.KEY_TYPE.PRESSED), new DPressed());
+        core.addKeyEvent(KEY.getKey(KeyEvent.VK_S, KEY.KEY_TYPE.PRESSED), new SPressed());
 
         while (true) {
             core.pullEvent();
             core.update();
         }
     }
-
 }

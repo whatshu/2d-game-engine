@@ -1,7 +1,5 @@
 package ge.base;
 
-import ge.base.POINT;
-
 public interface MOVABLE {
     void move(float dx, float dy);
 
@@ -13,7 +11,11 @@ public interface MOVABLE {
 
     POINT getPosition();
 
+    POINT getWindowPosition();
+
     float getX();
 
     float getY();
+
+    COORDINATE getCoordinate();
 }

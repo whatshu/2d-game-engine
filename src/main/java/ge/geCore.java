@@ -8,7 +8,6 @@ import ge.util.animationManager;
 import ge.util.imageManager;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -387,6 +386,4 @@ public class geCore {
     public void removeEvent(geEvent e) {
         events.remove(e);
     }
-
-
 }

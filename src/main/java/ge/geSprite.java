@@ -2,29 +2,24 @@ package ge;
 
 import ge.base.*;
 import ge.util.actionManager;
+import ge.util.compare;
 
 import java.awt.*;
-import java.util.List;
 
 public class geSprite implements MOVABLE {
-    private       geLayer  parentLayer;
-    private final String   name;
-    private final geFrame  defaultFrame;
-    private       geAction nowAction = null;
-    private final float    width;
-    private final float    height;
-    private       float    x, y;
+    private       COORDINATE coordinate;
+    private       COORDINATE actionCoordinate;
+    private       geLayer    parentLayer;
+    private final String     name;
+    private final geFrame    defaultFrame;
+    private       geAction   nowAction = null;
+    private final float      width;
+    private final float      height;
+    private       float      x, y;
     private boolean staticCoordinate = false;
 
     public geSprite(geLayer parent, String name, Image image, COLLISION_BORDER collisionBorder, float w, float h) {
-        this.parentLayer = parent;
-        this.name = name;
-        this.defaultFrame = new geFrame(image, collisionBorder);
-        this.width = w;
-        this.height = h;
-        this.x = 0f;
-        this.y = 0f;
-        parent.addSprite(this);
+        this(parent, name, new geFrame(image, collisionBorder), w, h);
     }
 
     public geSprite(geLayer parent, String name, geFrame defaultFrame, float w, float h) {
@@ -33,21 +28,20 @@ public class geSprite implements MOVABLE {
         this.defaultFrame = defaultFrame;
         this.width = w;
         this.height = h;
+        POINT t = parent.getWindowPosition();
+        t.x += parent.getWidth() / 2;
+        t.y += parent.getHeight() / 2;
+        this.coordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CENTER, t, parent.getWidth(), parent.getHeight(), 1, 1);
+        this.actionCoordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CORNER, getWindowPosition(), width, height, 1, 1);
         parent.addSprite(this);
     }
 
-    public POINT getWindowPosition(POINT p) {
-        POINT O1 = parentLayer.getPosition();
-        POINT O2 = new POINT(O1.x + parentLayer.getWidth() / 2, O1.y + parentLayer.getHeight() / 2);
-        POINT O3 = new POINT(O2.x + x * this.parentLayer.getWidth() / 2, O2.y + y * this.parentLayer.getHeight() / 2);
-        return new POINT(O3.x + p.x * width, O3.y + p.y * height);
+    public void updateCoordinate() {
+        POINT t = parentLayer.getWindowPosition();
+        t.x += parentLayer.getWidth() / 2;
+        t.y += parentLayer.getHeight() / 2;
+        this.coordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CENTER, t, parentLayer.getWidth(), parentLayer.getHeight(), 1, 1);
     }
-
-//    public POINT getWindowPosition(POINT p) {
-//        POINT O1 = parentLayer.getPosition();
-//        return new POINT(O1.x + 1/2 * parentLayer.getWidth() + p.x * parentLayer.getWidth(),
-//                O1.y + 1/2 * parentLayer.getHeight() - p.y * parentLayer.getHeight());
-//    }
 
     public void setAction(String actionName) {
         nowAction = actionManager.getActionManager().get(actionName);
@@ -99,7 +93,7 @@ public class geSprite implements MOVABLE {
         float thisMinX = 1;
         float thisMinY = 1;
         for (POINT p : this.getCollisionBorder().getPoints()) {
-            POINT real = getWindowPosition(p);
+            POINT real = actionCoordinate.getStandardPoint(p);
             if (real.x > thisMaxX) thisMaxX = real.x;
             if (real.x < thisMinX) thisMinX = real.x;
             if (real.y > thisMaxY) thisMaxY = real.y;
@@ -111,19 +105,17 @@ public class geSprite implements MOVABLE {
         float otherMinX = 1;
         float otherMinY = 1;
         for (POINT p : other.getCollisionBorder().getPoints()) {
-            POINT real = other.getWindowPosition(p);
+            POINT real = other.actionCoordinate.getStandardPoint(p);
             if (real.x > otherMaxX) otherMaxX = real.x;
             if (real.x < otherMinX) otherMinX = real.x;
             if (real.y > otherMaxY) otherMaxY = real.y;
             if (real.y < otherMinY) otherMinY = real.y;
         }
 
-        if (((thisMinX <= otherMinX && otherMinX <= thisMaxX && thisMaxX <= otherMaxX) ||
-                (otherMinX <= thisMaxX && thisMaxX <= otherMaxX && otherMaxX <= thisMaxX)) &&
-                ((thisMinY <= otherMinY && otherMinY <= thisMaxY && thisMaxY <= otherMaxY) ||
-                        (otherMinY <= thisMaxY && thisMaxY <= otherMaxY && otherMaxY <= thisMaxY))) {
-            return true;
-        } else return false;
+        return (compare.inOrder(new float[]{thisMinX, otherMinX, thisMaxX, otherMaxX}) ||
+                compare.inOrder(new float[]{otherMinX, thisMinX, otherMaxX, thisMaxX})) &&
+                (compare.inOrder(new float[]{thisMinY, otherMinY, thisMaxY, otherMaxY}) ||
+                        compare.inOrder(new float[]{otherMinY, thisMinY, otherMaxY, thisMaxY}));
     }
 
     public void abandon() {
@@ -172,29 +164,38 @@ public class geSprite implements MOVABLE {
     public void move(float dx, float dy) {
         x += dx;
         y += dy;
+        this.actionCoordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CORNER, getWindowPosition(), width, height, 1, 1);
     }
 
     @Override
     public void move(POINT dp) {
         x += dp.x;
         y += dp.y;
+        this.actionCoordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CORNER, getWindowPosition(), width, height, 1, 1);
     }
 
     @Override
     public void moveTo(float x, float y) {
         this.x = x;
         this.y = y;
+        this.actionCoordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CORNER, getWindowPosition(), width, height, 1, 1);
     }
 
     @Override
     public void moveTo(POINT p) {
         this.x = p.x;
         this.y = p.y;
+        this.actionCoordinate = new COORDINATE(COORDINATE.COORDINATE_TYPE.CORNER, getWindowPosition(), width, height, 1, 1);
     }
 
     @Override
     public POINT getPosition() {
         return new POINT(x, y);
+    }
+
+    @Override
+    public POINT getWindowPosition() {
+        return getCoordinate().getStandardPoint(x, y);
     }
 
     @Override
@@ -205,6 +206,15 @@ public class geSprite implements MOVABLE {
     @Override
     public float getY() {
         return y;
+    }
+
+    @Override
+    public COORDINATE getCoordinate() {
+        if (staticCoordinate) {
+            return parentLayer.getCoordinate();
+        } else {
+            return coordinate;
+        }
     }
 
     private COLLISION_BORDER getCollisionBorder() {
