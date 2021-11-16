@@ -42,10 +42,7 @@ public class geAction {
     }
 
     public geFrame next() {
-        now_at += 1;
-        if (now_at >= frames.size()) {
-            now_at = 0;
-        }
+        now_at = (now_at + 1) % frames.size();
         return frames.get(now_at);
     }
 
