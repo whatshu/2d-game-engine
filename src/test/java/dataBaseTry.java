@@ -132,9 +132,10 @@ public class dataBaseTry {
     public static void main(String[] args) {
         String tableName = "new_table";
 
-        //1. 2.
+        //    1. driver load
+        //    2. connect to database
         establishMySQLConnection();
-        //3.
+        //    3. get object
         Statement statement = null;
         try {
             statement = conn.createStatement();
@@ -142,14 +143,14 @@ public class dataBaseTry {
             throwables.printStackTrace();
         }
 
-        //4.
+        //    4.run sql-code
         createTable(statement,"Create Table If Not Exists Record(user varchar(50), time int);");
 
         updateRecode(statement,"insert into record(user, time) values(\"user1\", 10088)");
 
         searchRecode(resultSet, statement, "select user, time from record");
 
-        //6. close
+        //    6. close
         releaseStatementConncetion(statement, resultSet, conn);
     }
 }
