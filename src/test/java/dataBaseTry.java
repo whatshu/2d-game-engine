@@ -7,6 +7,7 @@ public class dataBaseTry {
     public static Connection conn;
     public static ResultSet resultSet;
     public static String url = "jdbc:mysql://localhost:3306/underguidance?useSSL=FALSE&serverTimezone=UTC";
+//    public static String url = "jdbc:derby: // localhost:1527/ CarDB; create = true";
     public static String username = "root";
     public static String password = "123456";
     public static String DRIVER = "com.mysql.cj.jdbc.Driver";

@@ -1,30 +1,51 @@
 package ge;
 
 import ge.base.COLLISION_BORDER;
+import ge.base.KEY;
 import ge.geException.geException;
 import ge.geException.geUnknownFileType;
 import ge.util.actionManager;
 import ge.util.animationManager;
 import ge.util.imageManager;
+import ge.util.keyboardManager;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class geCore {
 
-    private imageManager imageManager = ge.util.imageManager.getFrameManager();
-    private animationManager animationManager = ge.util.animationManager.getAnimationManager();
-    private actionManager actionManager = ge.util.actionManager.getActionManager();
-    private geWindow window = new geWindow();
-    private List<geEvent> events = new ArrayList<>();
+    private final imageManager imageManager = ge.util.imageManager.getFrameManager();
+    private final animationManager animationManager = ge.util.animationManager.getAnimationManager();
+    private final actionManager actionManager = ge.util.actionManager.getActionManager();
+    private final keyboardManager keyboardManager = ge.util.keyboardManager.getKeyboardManager();
+    private final geWindow window = new geWindow(this);
+    private final List<geEvent> events = new ArrayList<>();
+    private final String name;
 
-    public geCore() {
+    public geCore(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void delay(long time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException ignored) {
+        }
     }
 
     /*
     -------------       resource part       --------------
      */
+
+    public imageManager getImageManager() {
+        return imageManager;
+    }
 
     /**
      * load resources into managers
@@ -115,6 +136,10 @@ public class geCore {
         }
     }
 
+    public void performKeyEvent(KEY key) {
+        keyboardManager.perform(key, this);
+    }
+
     /*
     -------------       layer part       --------------
      */
@@ -182,6 +207,14 @@ public class geCore {
         return layer;
     }
 
+    public geLayer layerSetVisible(String layerName) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.setVisible(true);
+        }
+        return t;
+    }
+
     /**
      * set layer to invisible
      *
@@ -190,6 +223,14 @@ public class geCore {
     public geLayer layerSetInvisible(geLayer layer) {
         layer.setVisible(false);
         return layer;
+    }
+
+    public geLayer layerSetInvisible(String layerName) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.setVisible(false);
+        }
+        return t;
     }
 
     /**
@@ -207,6 +248,28 @@ public class geCore {
      */
     public int getLayerDepth(geLayer layer) {
         return layer.getDepth();
+    }
+
+    public void layerMove(geLayer layer, float dx, float dy) {
+        layer.move(dx, dy);
+    }
+
+    public void layerMove(String layerName, float dx, float dy) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.move(dx, dy);
+        }
+    }
+
+    public void layerMoveTo(geLayer layer, float x, float y) {
+        layer.moveTo(x, y);
+    }
+
+    public void layerMoveTo(String layerName, float x, float y) {
+        geLayer t = getLayerByName(layerName);
+        if (t != null) {
+            t.moveTo(x, y);
+        }
     }
 
     /*
@@ -376,7 +439,7 @@ public class geCore {
     }
 
     /*
-    -------------       sprite part       --------------
+    -------------       event part       --------------
      */
 
     public void addEvent(geEvent e) {
@@ -385,5 +448,13 @@ public class geCore {
 
     public void removeEvent(geEvent e) {
         events.remove(e);
+    }
+
+    public void addKeyEvent(KEY key, geEvent e) {
+        keyboardManager.addKeyEvent(key, e);
+    }
+
+    public void removeEvent(KEY key) {
+        keyboardManager.removeKeyEvent(key);
     }
 }

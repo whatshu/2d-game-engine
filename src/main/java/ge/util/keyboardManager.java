@@ -18,18 +18,18 @@ public class keyboardManager {
     }
 
 
-    private final Map<KEY, geEvent> keyEventMap = new HashMap<>();
+    private final Map<KEY, geEvent> keyEvent = new HashMap<KEY, geEvent>();
 
-    public void addKeyEvent(KEY key, geEvent event) {
-        keyEventMap.put(key, event);
+    public void addKeyEvent(KEY keyCode, geEvent event) {
+        keyEvent.put(keyCode, event);
     }
 
-    public void removeKeyEvent(KEY key) {
-        keyEventMap.remove(key);
+    public void removeKeyEvent(KEY keyCode) {
+        keyEvent.remove(keyCode);
     }
 
-    public void perform(KEY key, geCore core) {
-        geEvent t = keyEventMap.getOrDefault(key, null);
+    public void perform(KEY keyCode, geCore core) {
+        geEvent t = keyEvent.getOrDefault(keyCode, null);
         if (t != null && t.predicate()) {
             t.operate(core);
         }

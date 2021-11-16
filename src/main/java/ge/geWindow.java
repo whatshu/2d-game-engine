@@ -2,6 +2,7 @@ package ge;
 
 import ge.base.KEY;
 import ge.base.SCREEN_POINT;
+import ge.geCore;
 
 import javax.swing.*;
 import java.awt.*;
