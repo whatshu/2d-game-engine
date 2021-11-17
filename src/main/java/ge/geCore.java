@@ -10,8 +10,9 @@ import ge.util.imageManager;
 import ge.util.keyboardManager;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class geCore {
@@ -24,8 +25,29 @@ public class geCore {
     private final List<geEvent> events = new ArrayList<>();
     private final String name;
 
+
+    private double gameStartTime;
+    private double gameEndTime;
+
+    public double getGameStartTime() {
+        return gameStartTime;
+    }
+
+    public double getGameEndTime() {
+        return gameEndTime;
+    }
+
+    public void setGameStartTime(double gameStartTime) {
+        this.gameStartTime = gameStartTime;
+    }
+
+    public void setGameEndTime(double gameEndTime) {
+        this.gameEndTime = gameEndTime;
+    }
+
     public geCore(String name) {
         this.name = name;
+        this.gameStartTime = System.currentTimeMillis();
     }
 
     public String getName() {

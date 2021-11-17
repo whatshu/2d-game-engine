@@ -1,16 +1,15 @@
 package PrincessAdventure;
 
+import ge.*;
 import ge.base.COLLISION_BORDER;
 import ge.base.KEY;
-import ge.geCore;
-import ge.geEvent;
 import ge.geException.geException;
-import ge.geLayer;
-import ge.geSprite;
 
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,6 +47,8 @@ public class princessAdventure {
     private long lastUpdateTime;
     private int forestNum = 0;
     private float traveledDistance = 0;
+
+    private static boolean getEndTimeFlag = false;
 
     private void preloadingInit() {
         core.addKeyEvent(KEY.getKey(KeyEvent.VK_ENTER, KEY.KEY_TYPE.PRESSED), new geEvent() {
@@ -324,6 +325,17 @@ public class princessAdventure {
         endInit();
     }
 
+    private void getEndTime(){
+        if(!getEndTimeFlag){
+            core.setGameEndTime(System.currentTimeMillis());
+            double start = core.getGameStartTime();
+            double end = core.getGameEndTime();
+            DatabaseOperation dataBaseTry = new DatabaseOperation();
+            dataBaseTry.inputString(String.valueOf(end - start));
+            this.getEndTimeFlag = true;
+        }
+    }
+
     private void run() {
         switch (gameState) {
             case PRELOADING:
@@ -334,6 +346,7 @@ public class princessAdventure {
                 break;
             case END:
                 end();
+                getEndTime();
                 break;
         }
         core.pullEvent();
